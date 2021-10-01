@@ -68,10 +68,9 @@ public class CustomerService {
 	public Map<String, Object> getUnbilledTxn() {
 		ModelCardDetails obj = repoCardDetails.findCard(getUserId());
 		ModelCardlimit obj1 = repoCardLimitDetails.findLimit(obj.getCard_id());
-		String previousStatementDate = transactionDao.findPreviousStmtDate(obj1.getLaststatementdate());
 		String nextStatementDate = transactionDao.findNextStmtDate(obj1.getLaststatementdate());
-		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),
-				previousStatementDate, nextStatementDate);
+		List<ModelTransaction> modelTransaction = transactionDao.findUnBilledTransactions(obj1.getLaststatementdate(),
+				 nextStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("unbilledTxn", modelTransaction);
 		return map;
@@ -82,9 +81,7 @@ public class CustomerService {
 		ModelCardlimit obj1 = repoCardLimitDetails.findLimit(obj.getCard_id());
 		System.out.println(obj1.getLaststatementdate());
 		String previousStatementDate = transactionDao.findPreviousStmtDate(obj1.getLaststatementdate());
-		String nextStatementDate = transactionDao.findNextStmtDate(obj1.getLaststatementdate());
-		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),
-				previousStatementDate, nextStatementDate);
+		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),previousStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("billedTxn", modelTransaction);
 		return map;

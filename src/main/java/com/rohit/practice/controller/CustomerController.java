@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rohit.practice.model.UserDTO;
@@ -22,7 +23,7 @@ public class CustomerController {
 	@Autowired
 	CustomerService service;
 
-	@PostMapping(path="/creditdetails")
+	@PostMapping("/creditdetails")
 	public ResponseEntity<?> cardinfo()
 	{
 		Map<String,Object> map=service.creditcarddetails();
@@ -32,6 +33,12 @@ public class CustomerController {
 	@PostMapping("/unbilled-transactions")
 	public ResponseEntity<?> getUnbilledTrans(){
 		Map<String,Object> map = service.getUnbilledTxn();
+		return ResponseEntity.ok(map);
+	}
+	
+	@PostMapping("/billed-transactions")
+	public ResponseEntity<?> getBilledTrans(){
+		Map<String,Object> map = service.getBilledTxn();
 		return ResponseEntity.ok(map);
 	}
 
