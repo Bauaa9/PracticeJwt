@@ -3,13 +3,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.rohit.practice.model.CardDetails;
+import com.rohit.practice.model.ModelCardDetails;
 
 
 @Repository
-public interface CarddetailsRepo extends JpaRepository<CardDetails, Integer> {
+public interface CarddetailsRepo extends JpaRepository<ModelCardDetails, Integer> {
 	
 	@Query(value="select * from cardetails where customer_id=?1 and card_type='credit'", nativeQuery=true)
-	public CardDetails findCard(int id);
+	public ModelCardDetails findCard(int id);
 
 }

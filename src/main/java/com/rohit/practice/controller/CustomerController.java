@@ -17,24 +17,21 @@ import com.rohit.practice.service.CustomerService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-public class HelloWorldController {
+public class CustomerController {
 	
 	@Autowired
 	CustomerService service;
 
-	@RequestMapping("/hello")
-	public String firstPage() {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-String username = userDetails.getUsername();
-System.out.println(userDetails.toString());
-		return "Hello World";
+	@PostMapping(path="/creditdetails")
+	public ResponseEntity<?> cardinfo()
+	{
+		Map<String,Object> map=service.creditcarddetails();
+		return ResponseEntity.ok(map);
 	}
-	
 	
 	@PostMapping("/unbilled-transactions")
 	public ResponseEntity<?> getUnbilledTrans(){
-		Map<String,Object> map = service.getUnbilledTxn(1);
+		Map<String,Object> map = service.getUnbilledTxn();
 		return ResponseEntity.ok(map);
 	}
 

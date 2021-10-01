@@ -4,20 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="customerlogin")
-public class CustomerLogin {
+public class ModelCustomerLogin {
 	@Id
 	@Column(name="customer_id")
 	int customer_id;
 	@Column(name="username")
 	String username;
-	@Column(name="password")
+	@Column(name="passowrd")
 	String password;
 	
-	public CustomerLogin()
+	public ModelCustomerLogin()
 	{
 		
 	}
-	public CustomerLogin(int customer_id, String username, String password) {
+	public ModelCustomerLogin(int customer_id, String username, String password) {
 		super();
 		this.customer_id = customer_id;
 		this.username = username;

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="cardetails")
-public class CardDetails {
+public class ModelCardDetails {
 	
 	@Id
 	@Column(name="card_id")
@@ -22,12 +22,12 @@ public class CardDetails {
 	@Column(name="card_holder_name")
 	String card_holder_name;
 	
-	public CardDetails()
+	public ModelCardDetails()
 	{
 		
 	}
 
-	public CardDetails(int card_id, int customer_id, String card_number, String cvv, String expiry_date,
+	public ModelCardDetails(int card_id, int customer_id, String card_number, String cvv, String expiry_date,
 			String card_type, String card_holder_name) {
 		super();
 		this.card_id = card_id;

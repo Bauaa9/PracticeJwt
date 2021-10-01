@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="cardlimitdetails")
-public class Cardlimit {
+public class ModelCardlimit {
 	@Id
 	@Column(name="card_limit_id")
 	int card_limit_id;
@@ -25,12 +25,12 @@ public class Cardlimit {
 	@Column(name="available_cash_limit")
 	String availablecashlimit;
 	
-	public Cardlimit()
+	public ModelCardlimit()
 	{
 		
 	}
 
-	public Cardlimit(int card_limit_id, int card_id, String availablecreditlimit, String totalcreditlimit,
+	public ModelCardlimit(int card_limit_id, int card_id, String availablecreditlimit, String totalcreditlimit,
 			String rewardpoints, String laststatementdate, String paymentduedate, String totalcashlimit,
 			String availablecashlimit) {
 		super();
