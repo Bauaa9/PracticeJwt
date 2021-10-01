@@ -11,6 +11,18 @@ import com.rohit.practice.model.ModelTransaction;
 @Repository
 public interface TransactionDao extends JpaRepository<ModelTransaction, Integer>{
 
-	@Query(value="select * from cardlimitdetails where card_id=?1", nativeQuery=true)
-	public Cardlimit findLimit(int id);
+	@Query(value="select trs_id,date_time,expenditure from transactions where (Date(date_time) between ?1 and @nextStmtDate)", nativeQuery=true)
+	public ModelTransaction findUnBilledTransactions(String lastStmtDate,String previousStmtDate,String nextStmtDate);
+	
+	
+	@Query(value="select trs_id,date_time,expenditure from transactions where (Date(date_time) between @previousStmtDate and ?1)", nativeQuery=true)
+	public ModelTransaction findBilledTransactions(String lastStmtDate,String previousStmtDate,String nextStmtDate);
+	
+	@Query(value="select DATE_ADD((DATE_ADD(?1, INTERVAL 1 MONTH)), INTERVAL -1 DAY)"
+			, nativeQuery=true)
+	public String findNextStmtDate(String id);
+	
+	@Query(value="Select DATE_ADD((DATE_SUB(?1, INTERVAL 1 MONTH)), INTERVAL 1 DAY);"
+			,nativeQuery=true)
+	public String findPreviousStmtDate(String id);
 }
