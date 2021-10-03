@@ -50,6 +50,12 @@ public class CustomerController {
 		return ResponseEntity.ok(map);
 	}
 
+	@PostMapping("/retail-transactions")
+	public ResponseEntity<?> getRetailTransactions() {
+		Map<String, Object> map = service.getRetailTxn();
+		return ResponseEntity.ok(map);
+	}
+	
 	@PostMapping(value = "/new-card")
 	public ResponseEntity<?> addCard(@RequestBody ModelCardDetails newCard) {
 		return ResponseEntity.ok(service.addCard(newCard));

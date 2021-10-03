@@ -74,10 +74,15 @@ public class CustomerService {
 		ModelCardDetails obj = repoCardDetails.findCard(getUserId());
 		ModelCardlimit obj1 = repoCardLimitDetails.findLimit(obj.getCard_id());
 		String nextStatementDate = transactionDao.findNextStmtDate(obj1.getLaststatementdate());
+		System.out.println(nextStatementDate);
 		List<ModelTransaction> modelTransaction = transactionDao.findUnBilledTransactions(obj1.getLaststatementdate(),
 				nextStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
+		Float totalOutstandingAmount = transactionDao.getTotalOutstandingAmount(obj1.getLaststatementdate(),
+				nextStatementDate);
+		System.out.println(totalOutstandingAmount);
 		map.put("unbilledTxn", modelTransaction);
+		map.put("totalOutstandingAmount", totalOutstandingAmount);
 		return map;
 	}
 
@@ -89,7 +94,11 @@ public class CustomerService {
 		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),
 				previousStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
+		Float totalAmountDue = transactionDao.getTotalAmountDue(obj1.getLaststatementdate(),
+				previousStatementDate);
 		map.put("billedTxn", modelTransaction);
+		map.put("totalAmountDue", totalAmountDue);
+		map.put("minAmountDue", (int)(totalAmountDue/9));
 		return map;
 	}
 
@@ -104,6 +113,14 @@ public class CustomerService {
 		cd.setCustomer_id(getUserId());
 		cd.setCard_id((int) repoCardDetails.count() + 1);
 		return (ModelCardDetails) repoCardDetails.save(cd);
+	}
+	
+	public Map<String, Object> getRetailTxn() {
+		ModelCardDetails obj = repoCardDetails.findCard(getUserId());
+		List<ModelTransaction> modelTransaction = transactionDao.findRetailTransactions();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("retailTxn", modelTransaction);
+		return map;
 	}
 
 	public Map<String, Object> displayAll() {
