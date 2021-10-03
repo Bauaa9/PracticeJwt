@@ -1,6 +1,11 @@
 package com.rohit.practice.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +25,8 @@ import com.rohit.practice.model.JwtRequest;
 import com.rohit.practice.model.JwtResponse;
 import com.rohit.practice.model.UserDTO;
 import com.rohit.practice.service.JwtUserDetailsService;
+
+import io.jsonwebtoken.impl.DefaultClaims;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -50,6 +57,7 @@ public class JwtAuthenticationController {
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
+
 
 	private void authenticate(String username, String password) throws Exception {
 		try {

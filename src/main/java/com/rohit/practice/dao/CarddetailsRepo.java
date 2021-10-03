@@ -9,7 +9,7 @@ import com.rohit.practice.model.ModelCardDetails;
 @Repository
 public interface CarddetailsRepo extends JpaRepository<ModelCardDetails, Integer> {
 	
-	@Query(value="select * from cardetails where customer_id=?1 and card_type='credit'", nativeQuery=true)
+	@Query(value="select * from cardetails where customer_id=?1 and card_type='credit' limit 1", nativeQuery=true)
 	public ModelCardDetails findCard(int id);
 
 }

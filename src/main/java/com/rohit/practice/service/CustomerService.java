@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 import com.rohit.practice.dao.CarddetailsRepo;
 import com.rohit.practice.dao.CardlimitRepo;
 import com.rohit.practice.dao.CustomerRepo;
+import com.rohit.practice.dao.ProfileRepo;
 import com.rohit.practice.dao.TransactionDao;
 import com.rohit.practice.model.ModelCardDetails;
 import com.rohit.practice.model.ModelCardlimit;
 import com.rohit.practice.model.ModelCustomerLogin;
+import com.rohit.practice.model.ModelProfile;
 import com.rohit.practice.model.ModelTransaction;
 
 @Service
@@ -31,6 +33,9 @@ public class CustomerService {
 
 	@Autowired
 	CardlimitRepo repoCardLimitDetails;
+
+	@Autowired
+	ProfileRepo repoProfile;
 
 	@Autowired
 	TransactionDao transactionDao;
@@ -70,7 +75,7 @@ public class CustomerService {
 		ModelCardlimit obj1 = repoCardLimitDetails.findLimit(obj.getCard_id());
 		String nextStatementDate = transactionDao.findNextStmtDate(obj1.getLaststatementdate());
 		List<ModelTransaction> modelTransaction = transactionDao.findUnBilledTransactions(obj1.getLaststatementdate(),
-				 nextStatementDate);
+				nextStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("unbilledTxn", modelTransaction);
 		return map;
@@ -81,7 +86,8 @@ public class CustomerService {
 		ModelCardlimit obj1 = repoCardLimitDetails.findLimit(obj.getCard_id());
 		System.out.println(obj1.getLaststatementdate());
 		String previousStatementDate = transactionDao.findPreviousStmtDate(obj1.getLaststatementdate());
-		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),previousStatementDate);
+		List<ModelTransaction> modelTransaction = transactionDao.findBilledTransactions(obj1.getLaststatementdate(),
+				previousStatementDate);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("billedTxn", modelTransaction);
 		return map;
@@ -93,22 +99,43 @@ public class CustomerService {
 		ModelCustomerLogin modelCustomerLogin = repoCustomer.findUser(username);
 		return modelCustomerLogin.getCustomer_id();
 	}
-	
+
 	public ModelCardDetails addCard(ModelCardDetails cd) {
 		cd.setCustomer_id(getUserId());
-		cd.setCard_id((int)repoCardDetails.count()+1);
+		cd.setCard_id((int) repoCardDetails.count() + 1);
 		return (ModelCardDetails) repoCardDetails.save(cd);
 	}
-	
+
 	public Map<String, Object> displayAll() {
 		List<ModelCardDetails> temp = repoCardDetails.findAll();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("allCards", temp);
 		return map;
 	}
-	
+
 	public void deleteCard(Integer cardId) {
 		repoCardDetails.deleteById(cardId);
+	}
+
+
+	public Map<String, Object> getProfileById() {
+		ModelProfile profile = repoProfile.getUserDetailsById(getUserId());
+		Map<String, Object> map = new HashMap<>();
+		map.put("profileDetails", profile);
+		return map;
+	}
+
+	public Map<String, Object> updateProfileById(ModelProfile profileDetails) {
+		ModelProfile profile = repoProfile.getUserDetailsById(getUserId());
+		profile.setFirstName(profileDetails.getFirstName());
+		profile.setLastName(profileDetails.getLastName());
+		profile.setEmail(profileDetails.getEmail());
+		profile.setPhoneNo(profileDetails.getPhoneNo());
+		profile.setSso(profileDetails.getSso());
+		ModelProfile updatedProfile = repoProfile.save(profile);
+		Map<String, Object> map = new HashMap<>();
+		map.put("profileDetails", updatedProfile);
+		return map;
 	}
 
 }
