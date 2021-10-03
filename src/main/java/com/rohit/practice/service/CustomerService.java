@@ -95,6 +95,8 @@ public class CustomerService {
 	}
 	
 	public ModelCardDetails addCard(ModelCardDetails cd) {
+		cd.setCustomer_id(getUserId());
+		cd.setCard_id((int)repoCardDetails.count()+1);
 		return (ModelCardDetails) repoCardDetails.save(cd);
 	}
 	

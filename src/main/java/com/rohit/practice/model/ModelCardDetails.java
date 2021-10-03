@@ -94,6 +94,17 @@ public class ModelCardDetails {
 	public void setCard_holder_name(String card_holder_name) {
 		this.card_holder_name = card_holder_name;
 	}
+
+	@Override
+	public String toString() {
+		return "ModelCardDetails [card_id=" + card_id + ", customer_id=" + customer_id + ", card_number=" + card_number
+				+ ", cvv=" + cvv + ", expiry_date=" + expiry_date + ", card_type=" + card_type + ", card_holder_name="
+				+ card_holder_name + ", getCard_id()=" + getCard_id() + ", getCustomer_id()=" + getCustomer_id()
+				+ ", getCard_number()=" + getCard_number() + ", getCvv()=" + getCvv() + ", getExpiry_date()="
+				+ getExpiry_date() + ", getCard_type()=" + getCard_type() + ", getCard_holder_name()="
+				+ getCard_holder_name() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 	
 	
 	
