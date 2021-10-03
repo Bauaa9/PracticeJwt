@@ -93,5 +93,20 @@ public class CustomerService {
 		ModelCustomerLogin modelCustomerLogin = repoCustomer.findUser(username);
 		return modelCustomerLogin.getCustomer_id();
 	}
+	
+	public ModelCardDetails addCard(ModelCardDetails cd) {
+		return (ModelCardDetails) repoCardDetails.save(cd);
+	}
+	
+	public Map<String, Object> displayAll() {
+		List<ModelCardDetails> temp = repoCardDetails.findAll();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("allCards", temp);
+		return map;
+	}
+	
+	public void deleteCard(Integer cardId) {
+		repoCardDetails.deleteById(cardId);
+	}
 
 }
