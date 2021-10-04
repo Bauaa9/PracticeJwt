@@ -10,12 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.rohit.practice.dao.AddressRepository;
 import com.rohit.practice.dao.CarddetailsRepo;
 import com.rohit.practice.dao.CardlimitRepo;
 import com.rohit.practice.dao.CustomerRepo;
 import com.rohit.practice.dao.ProfileRepo;
 import com.rohit.practice.dao.TransactionDao;
+import com.rohit.practice.model.ModelAddress;
 import com.rohit.practice.model.ModelCardDetails;
 import com.rohit.practice.model.ModelCardlimit;
 import com.rohit.practice.model.ModelCustomerLogin;
@@ -39,6 +42,9 @@ public class CustomerService {
 
 	@Autowired
 	TransactionDao transactionDao;
+	
+	@Autowired 
+	AddressRepository addressRepo;
 
 	public ModelCustomerLogin getUser(String username) {
 		return this.repoCustomer.findUser(username);
@@ -152,6 +158,34 @@ public class CustomerService {
 		ModelProfile updatedProfile = repoProfile.save(profile);
 		Map<String, Object> map = new HashMap<>();
 		map.put("profileDetails", updatedProfile);
+		return map;
+	}
+	
+	public Map<String, Object> getAllAddress()
+	{
+		List<ModelAddress> listAddresses =addressRepo.findAllAddresses(getUserId());
+		Map<String, Object> map = new HashMap<>();
+		map.put("addresses", listAddresses);
+		return map;
+	}
+
+	public Map<String, Object> addAddress(ModelAddress address) 
+	{
+//		address.setAddress_id (((int)addressRepo.count())+1);
+		address.setUser_id(getUserId());
+		System.out.println(address.toString());
+		addressRepo.save(address);
+		Map<String, Object> map = new HashMap<>();
+		map.put("message", "Added address succesfully");
+		return map;
+	}
+	
+	public Map<String, Object> deleteAddress(@PathVariable int id)
+	{
+		ModelAddress address = addressRepo.findById(id).orElseThrow();
+		addressRepo.delete(address);
+		Map<String, Object> map = new HashMap<>();
+		map.put("message", "Deleted address succesfully");
 		return map;
 	}
 

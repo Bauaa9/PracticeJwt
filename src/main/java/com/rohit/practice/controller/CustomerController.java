@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rohit.practice.model.ModelAddress;
 import com.rohit.practice.model.ModelCardDetails;
 import com.rohit.practice.model.ModelProfile;
 import com.rohit.practice.model.UserDTO;
@@ -88,5 +89,23 @@ public class CustomerController {
 	public ResponseEntity<?> updateProfile(@RequestBody ModelProfile profile) {
 		return ResponseEntity.ok(service.updateProfileById(profile));
 	}
+	
+	@PostMapping(value = "/add-address")
+	public ResponseEntity<?> addAddress(@RequestBody ModelAddress modelAddress) {
+		return ResponseEntity.ok(service.addAddress(modelAddress));
+	}
+	
+	@PostMapping("/addresses")
+	public ResponseEntity<?>  getAllAddress()
+	{
+		return ResponseEntity.ok(service.getAllAddress());
+	}
+	
+	@DeleteMapping("/delete/address/{id}")
+	public ResponseEntity<?> deleteAddress(@PathVariable int id)
+	{
+		return ResponseEntity.ok(service.deleteAddress(id));
+	}
+	
 
 }
