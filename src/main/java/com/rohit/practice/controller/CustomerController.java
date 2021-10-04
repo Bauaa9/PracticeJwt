@@ -85,7 +85,7 @@ public class CustomerController {
 		return ResponseEntity.ok(service.getProfileById());
 	}
 
-	@PutMapping("/update-profile")
+	@PostMapping("/update-profile")
 	public ResponseEntity<?> updateProfile(@RequestBody ModelProfile profile) {
 		return ResponseEntity.ok(service.updateProfileById(profile));
 	}

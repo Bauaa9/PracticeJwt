@@ -18,12 +18,14 @@ import com.rohit.practice.dao.CardlimitRepo;
 import com.rohit.practice.dao.CustomerRepo;
 import com.rohit.practice.dao.ProfileRepo;
 import com.rohit.practice.dao.TransactionDao;
+import com.rohit.practice.model.DAOUser;
 import com.rohit.practice.model.ModelAddress;
 import com.rohit.practice.model.ModelCardDetails;
 import com.rohit.practice.model.ModelCardlimit;
 import com.rohit.practice.model.ModelCustomerLogin;
 import com.rohit.practice.model.ModelProfile;
 import com.rohit.practice.model.ModelTransaction;
+import com.rohit.practice.model.UserDTO;
 
 @Service
 public class CustomerService {
@@ -46,22 +48,6 @@ public class CustomerService {
 	@Autowired 
 	AddressRepository addressRepo;
 
-	public ModelCustomerLogin getUser(String username) {
-		return this.repoCustomer.findUser(username);
-	}
-
-	public String verify(ModelCustomerLogin user) {
-		try {
-			ModelCustomerLogin checkUser = getUser(user.getUsername());
-
-			if (checkUser.getPassword().equals(user.getPassword()))
-				return "true";
-			else
-				return "false";
-		} catch (Exception e) {
-			throw new NoSuchElementException();
-		}
-	}
 
 	public Map<String, Object> creditcarddetails() {
 		ModelCardDetails obj = repoCardDetails.findCard(getUserId());
@@ -111,8 +97,8 @@ public class CustomerService {
 	public int getUserId() {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
-		ModelCustomerLogin modelCustomerLogin = repoCustomer.findUser(username);
-		return modelCustomerLogin.getCustomer_id();
+		DAOUser modelCustomerLogin = repoCustomer.findUser(username);
+		return (int) modelCustomerLogin.getId();
 	}
 
 	public ModelCardDetails addCard(ModelCardDetails cd) {
@@ -130,7 +116,7 @@ public class CustomerService {
 	}
 
 	public Map<String, Object> displayAll() {
-		List<ModelCardDetails> temp = repoCardDetails.findAll();
+		List<ModelCardDetails> temp = repoCardDetails.findByUserId(getUserId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("allCards", temp);
 		return map;
